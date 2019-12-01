@@ -1,0 +1,10 @@
+[package]
+name = "deep-diff-rs"
+version = "0.1.0"
+authors = ["hokuron <anti.soft.b@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]
