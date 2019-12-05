@@ -429,4 +429,24 @@ mod tests {
         assert_eq!(changes[1].delete().unwrap().item, &"c");
         assert_eq!(changes[1].delete().unwrap().index, 2);
     }
+
+    #[test]
+    fn replace_c_str() {
+        use std::ffi::CStr;
+
+        let old = vec!["a", "b", "c"]
+            .into_iter()
+            .map(|str| unsafe { CStr::from_bytes_with_nul_unchecked(str.as_bytes()) }.as_ptr())
+            .collect::<Vec<_>>();
+        let new = vec!["a", "B", "c"]
+            .into_iter()
+            .map(|str| unsafe { CStr::from_bytes_with_nul_unchecked(str.as_bytes()) }.as_ptr())
+            .collect::<Vec<_>>();
+
+        let changes = diff(&old, &new);
+        assert_eq!(changes.len(), 2);
+
+        assert!(changes[0].delete().is_some());
+        assert!(changes[1].insert().is_some());
+    }
 }
