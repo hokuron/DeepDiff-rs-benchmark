@@ -41,8 +41,11 @@ let runner = BenchmarkRunner(
         }
     },
     Benchmark(name: "DeepDiff-rs") { data in
+        let old = data.source.map { coercion($0) }
+        let new = data.target.map { coercion($0) }
+
         return {
-            diffStrings(old: data.source, new: data.target)
+            diffStrings(old: old, new: new)
         }
     },
 //    Benchmark(name: "Differ") { data in
